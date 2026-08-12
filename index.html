@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CGPA Calculator</title>
+<style>
+body{font-family:sans-serif;background:#0f172a;color:white;padding:15px}
+.card{background:#1e293b;padding:15px;border-radius:12px;margin-bottom:15px}
+input,select,button{padding:10px;margin:5px;border-radius:8px;border:none;width:90%}
+button{background:#22c55e;color:black;font-weight:bold}
+.row{display:flex;gap:5px;flex-wrap:wrap}
+.result{font-size:20px;background:#22c55e;color:black;padding:15px;border-radius:10px;text-align:center}
+</style>
+</head>
+<body>
+<h2>🎓 CGPA Calculator</h2>
+<div class="card">
+<div class="row">
+<input id="course" placeholder="Course e.g. CSC101">
+<input id="unit" type="number" placeholder="Credit Unit">
+<select id="grade">
+<option value="5">A (5)</option>
+<option value="4">B (4)</option>
+<option value="3">C (3)</option>
+<option value="2">D (2)</option>
+<option value="1">E (1)</option>
+<option value="0">F (0)</option>
+</select>
+</div>
+<button onclick="addCourse()">Add Course</button>
+</div>
+<div class="card" id="list">No courses yet</div>
+<div class="result" id="result">GPA: 0.00 | CGPA: 0.00</div>
+<button onclick="clearAll()" style="background:#ef4444;color:white">Clear All</button>
+
+<script>
+let courses=[]
+function addCourse(){
+let c=document.getElementById('course').value||'Course'
+let u=parseInt(document.getElementById('unit').value)
+let g=parseInt(document.getElementById('grade').value)
+if(!u){alert('Enter credit unit');return}
+courses.push({c,u,g})
+render()
+}
+function render(){
+let html='';let totalU=0,totalP=0
+courses.forEach((x,i)=>{
+let gp=x.u*x.g
+totalU+=x.u;totalP+=gp
+html+=`<div>${x.c} - ${x.u} units - Grade ${x.g} <button onclick="remove(${i})">x</button></div>`
+})
+document.getElementById('list').innerHTML=html||'No courses yet'
+let gpa=totalU? (totalP/totalU).toFixed(2):0
+let cls=gpa>=4.5?'First Class':gpa>=3.5?'Second Upper':gpa>=2.4?'Second Lower':gpa>=1.5?'Third Class':'Pass/Fail'
+document.getElementById('result').innerText=`GPA/CGPA: ${gpa} | ${cls} | Units: ${totalU}`
+}
+function remove(i){courses.splice(i,1);render()}
+function clearAll(){courses=[];render()}
+</script>
+</body>
+</html>
