@@ -25,18 +25,16 @@ input,select{width:100%;padding:12px;border:1px solid #e5e7eb;border-radius:10px
 .btn-p{background:#22c55e;color:#fff}
 .btn-g{background:#3b82f6;color:#fff}
 .badge{display:inline-flex;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.resultBig{border-radius:16px;padding:20px;text-align:center;color:#fff}
-.resultBig{background:linear-gradient(135deg,#7c3aed,#ec4899,#f59e0b)}
+.resultBig{border-radius:16px;padding:20px;text-align:center;color:#fff;background:linear-gradient(135deg,#7c3aed,#ec4899,#f59e0b)}
 .gpaNum{font-size:42px;font-weight:800}
-.gpaNum small{font-size:18px;opacity:.8}
-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
-th{text-align:left;color:#6b7280;font-weight:600;padding:8px;border-bottom:1px solid #f3f4f6}
-td{padding:10px 8px;border-bottom:1px solid #f9fafb}
-.del{color:#ef4444;background:none;border:none;font-weight:700;cursor:pointer}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .stat{padding:12px;border-radius:12px;font-weight:600}
 .stat1{background:#fef3c7;color:#92400e}.stat2{background:#dbeafe;color:#1e40af}
 .footer{text-align:center;padding:30px;color:#fecaca;font-size:12px}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th{text-align:left;color:#6b7280;font-weight:600;padding:8px;border-bottom:1px solid #f3f4f6}
+td{padding:10px 8px;border-bottom:1px solid #f9fafb}
+.del{color:#ef4444;background:none;border:none;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
@@ -64,14 +62,18 @@ td{padding:10px 8px;border-bottom:1px solid #f9fafb}
 <option value="Y3S2">Year 3 - Semester 2</option>
 <option value="Y4S1">Year 4 - Semester 1</option>
 <option value="Y4S2">Year 4 - Semester 2</option>
+<option value="Y5S1">Year 5 - Semester 1</option>
+<option value="Y5S2">Year 5 - Semester 2</option>
+<option value="Y6S1">Year 6 - Semester 1</option>
+<option value="Y6S2">Year 6 - Semester 2</option>
 </select>
 </div>
 </div>
 <div class="card" style="margin-top:16px">
-<div class="resultBig" id="resultBox">
+<div class="resultBig">
 <div style="opacity:.9;font-size:12px;letter-spacing:1px">CURRENT CGPA</div>
-<div class="gpaNum" id="cgpa">0.00</div>
-<div id="class" class="badge" style="margin-top:8px;background:#fff;color:#7c3aed">Add courses to calculate</div>
+<div class="gpaNum" id="cgpa">0.00<small style="font-size:18px">/5.00</small></div>
+<div id="class" class="badge" style="margin-top:8px;background:#fff;color:#7c3aed">Add courses</div>
 <div class="stats">
 <div class="stat stat1"><small>Total Units</small><b id="tUnits">0</b></div>
 <div class="stat stat2"><small>Total Points</small><b id="tPoints">0</b></div>
@@ -88,24 +90,22 @@ td{padding:10px 8px;border-bottom:1px solid #f9fafb}
 <div class="h" style="margin:0;color:#7c3aed" id="semTitle">Year 1 - Semester 1 Courses</div>
 <div class="badge" id="gpaBadge" style="background:#f3e8ff;color:#7c3aed">GPA 0.00</div>
 </div>
-<div style="overflow:auto">
 <table id="table"><tr><th>Course</th><th>Unit</th><th>Grade</th><th>Point</th><th></th></tr></table>
+<div id="empty" style="text-align:center;padding:40px 10px;color:#94a3b8"><p style="font-size:32px">📚</p><p>No courses</p><small>Add courses using the form</small></div>
 </div>
-<div id="empty" style="text-align:center;padding:40px 10px;color:#94a3b8"><p style="font-size:32px">📚</p><p>No courses in this semester</p><small>Add courses using the form</small></div>
 </div>
-</div>
-<div class="footer">Built by Okoli Success Onyedika • Works for any Nigerian University on 5.0 scale</div>
+<div class="footer">Built by Okoli Success Onyedika • Works for any Nigerian University (1-6 Years) • 5.0 Scale</div>
 <script>
 let data=JSON.parse(localStorage.getItem('unicgpa_v2')||'{}'),currentSem=localStorage.getItem('unicgpa_curr')||'Y1S1'
-const semNames={Y1S1:"Year 1 - Semester 1",Y1S2:"Year 1 - Semester 2",Y2S1:"Year 2 - Semester 1",Y2S2:"Year 2 - Semester 2",Y3S1:"Year 3 - Semester 1",Y3S2:"Year 3 - Semester 2",Y4S1:"Year 4 - Semester 1",Y4S2:"Year 4 - Semester 2"}
+const semNames={Y1S1:"Year 1 - Semester 1",Y1S2:"Year 1 - Semester 2",Y2S1:"Year 2 - Semester 1",Y2S2:"Year 2 - Semester 2",Y3S1:"Year 3 - Semester 1",Y3S2:"Year 3 - Semester 2",Y4S1:"Year 4 - Semester 1",Y4S2:"Year 4 - Semester 2",Y5S1:"Year 5 - Semester 1",Y5S2:"Year 5 - Semester 2",Y6S1:"Year 6 - Semester 1",Y6S2:"Year 6 - Semester 2"}
 if(!data[currentSem])data[currentSem]=[]
 document.getElementById('semSel').value=currentSem
 function save(){localStorage.setItem('unicgpa_v2',JSON.stringify(data));localStorage.setItem('unicgpa_curr',currentSem)}
 function switchSem(){currentSem=document.getElementById('semSel').value;if(!data[currentSem])data[currentSem]=[];save();render()}
-function add(){let name=document.getElementById('cName').value.trim()||'Course '+(data[currentSem].length+1),unit=parseInt(document.getElementById('cUnit').value),grade=parseInt(document.getElementById('cGrade').value);if(!unit||unit<1){alert('Enter credit unit 1-6');return}data[currentSem].push({name,unit,grade});document.getElementById('cName').value='';document.getElementById('cUnit').value='';save();render()}
+function add(){let n=document.getElementById('cName').value.trim()||'Course '+(data[currentSem].length+1),u=parseInt(document.getElementById('cUnit').value),g=parseInt(document.getElementById('cGrade').value);if(!u||u<1){alert('Enter credit unit 1-6');return}data[currentSem].push({name:n,unit:u,grade:g});document.getElementById('cName').value='';document.getElementById('cUnit').value='';save();render()}
 function del(i){data[currentSem].splice(i,1);save();render()}
 function clearAll(){if(confirm('Clear all courses in '+semNames[currentSem]+'?')){data[currentSem]=[];save();render()}}
-function render(){let table=document.getElementById('table');table.innerHTML='<tr><th>Course</th><th>Unit</th><th>Grade</th><th>Point</th><th></th></tr>';let semCourses=data[currentSem]||[],semU=0,semP=0;semCourses.forEach((c,i)=>{let p=c.unit*c.grade;semU+=c.unit;semP+=p;table.innerHTML+=`<tr><td><b>${c.name}</b></td><td>${c.unit}</td><td>${c.grade}.0</td><td>${p}</td><td><button class="del" onclick="del(${i})">✕</button></td></tr>`});document.getElementById('empty').style.display=semCourses.length?'none':'block';let gpa=semU?(semP/semU).toFixed(2):'0.00';document.getElementById('gpaBadge').innerText='GPA '+gpa;document.getElementById('semTitle').innerText=semNames[currentSem]+' Courses';let totalU=0,totalP=0;Object.values(data).forEach(list=>{list.forEach(c=>{totalU+=c.unit;totalP+=c.unit*c.grade})});let cgpa=totalU?(totalP/totalU).toFixed(2):'0.00';document.getElementById('cgpa').innerHTML=cgpa+'<small>/5.00</small>';document.getElementById('tUnits').innerText=totalU;document.getElementById('tPoints').innerText=totalP;let cls='',v=parseFloat(cgpa);if(v>=4.5)cls='FIRST CLASS';else if(v>=3.5)cls='SECOND CLASS UPPER (2:1)';else if(v>=2.4)cls='SECOND CLASS LOWER (2:2)';else if(v>=1.5)cls='THIRD CLASS';else if(v>=1.0)cls='PASS';else cls='PROBATION / FAIL';document.getElementById('class').innerText=cls}
+function render(){let t=document.getElementById('table');t.innerHTML='<tr><th>Course</th><th>Unit</th><th>Grade</th><th>Point</th><th></th></tr>';let c=data[currentSem]||[],su=0,sp=0;c.forEach((x,i)=>{let p=x.unit*x.grade;su+=x.unit;sp+=p;t.innerHTML+=`<tr><td><b>${x.name}</b></td><td>${x.unit}</td><td>${x.grade}.0</td><td>${p}</td><td><button class="del" onclick="del(${i})">✕</button></td></tr>`});document.getElementById('empty').style.display=c.length?'none':'block';let g=su?(sp/su).toFixed(2):'0.00';document.getElementById('gpaBadge').innerText='GPA '+g;document.getElementById('semTitle').innerText=semNames[currentSem]+' Courses';let tu=0,tp=0;Object.values(data).forEach(l=>l.forEach(v=>{tu+=v.unit;tp+=v.unit*v.grade}));let cg=tu?(tp/tu).toFixed(2):'0.00';document.getElementById('cgpa').innerHTML=cg+'<small>/5.00</small>';document.getElementById('tUnits').innerText=tu;document.getElementById('tPoints').innerText=tp;let cl='',v=parseFloat(cg);if(v>=4.5)cl='FIRST CLASS';else if(v>=3.5)cl='SECOND CLASS UPPER (2:1)';else if(v>=2.4)cl='SECOND CLASS LOWER (2:2)';else if(v>=1.5)cl='THIRD CLASS';else if(v>=1.0)cl='PASS';else cl='PROBATION / FAIL';document.getElementById('class').innerText=cl}
 render();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js')
 </script>
 </body>
