@@ -1,62 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CGPA Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniCGPA - Universal CGPA Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:sans-serif;background:#0f172a;color:white;padding:15px}
-.card{background:#1e293b;padding:15px;border-radius:12px;margin-bottom:15px}
-input,select,button{padding:10px;margin:5px;border-radius:8px;border:none;width:90%}
-button{background:#22c55e;color:black;font-weight:bold}
-.row{display:flex;gap:5px;flex-wrap:wrap}
-.result{font-size:20px;background:#22c55e;color:black;padding:15px;border-radius:10px;text-align:center}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:#f8fafc;color:#0f172a;min-height:100vh}
+header{background:#fff;border-bottom:1px solid #e2e8f0;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.logo{font-weight:800;font-size:20px}.logo span{color:#22c55e}
+.container{max-width:900px;margin:20px auto;padding:0 14px;display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:768px){.container{grid-template-columns:340px 1fr}}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+.h{font-weight:700;font-size:14px;margin-bottom:12px;letter-spacing:.5px;text-transform:uppercase;color:#475569}
+input,select{width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;margin-bottom:10px;outline:none;font-size:14px}
+input:focus,select:focus{border-color:#22c55e;background:#fff}
+.btn{width:100%;padding:13px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-p{background:#0f172a;color:#fff}.btn-p:active{transform:scale(.98)}
+.btn-g{background:#22c55e;color:#000}
+.badge{display:inline-flex;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#dcfce7;color:#166534}
+.resultBig{background:#0f172a;color:#fff;border-radius:16px;padding:20px;text-align:center}
+.gpaNum{font-size:42px;font-weight:800;letter-spacing:-1px}
+.gpaNum small{font-size:18px;opacity:.7}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th{text-align:left;color:#64748b;font-weight:600;padding:8px;border-bottom:1px solid #e2e8f0}
+td{padding:10px 8px;border-bottom:1px solid #f1f5f9}
+.del{color:#ef4444;background:none;border:none;font-weight:700;cursor:pointer}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.stat{background:#f1f5f9;padding:12px;border-radius:12px}
+.stat b{font-size:18px;display:block}
+.footer{text-align:center;padding:30px;color:#94a3b8;font-size:12px}
 </style>
 </head>
 <body>
-<h2>🎓 CGPA Calculator</h2>
+<header>
+<div class="logo">🎓 Uni<span>CGPA</span></div>
+<div style="font-size:12px;color:#64748b">Universal • Any University • 5.0 Scale</div>
+</header>
+
+<div class="container">
+<div>
 <div class="card">
-<div class="row">
-<input id="course" placeholder="Course e.g. CSC101">
-<input id="unit" type="number" placeholder="Credit Unit">
-<select id="grade">
-<option value="5">A (5)</option>
-<option value="4">B (4)</option>
-<option value="3">C (3)</option>
-<option value="2">D (2)</option>
-<option value="1">E (1)</option>
-<option value="0">F (0)</option>
+<div class="h">Add Course</div>
+<input id="cName" placeholder="Course Code e.g. MTH 101">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<input id="cUnit" type="number" min="1" max="6" placeholder="Unit (1-6)">
+<select id="cGrade">
+<option value="5">A - 5.0 (70-100)</option>
+<option value="4">B - 4.0 (60-69)</option>
+<option value="3">C - 3.0 (50-59)</option>
+<option value="2">D - 2.0 (45-49)</option>
+<option value="1">E - 1.0 (40-44)</option>
+<option value="0">F - 0.0 (0-39)</option>
 </select>
 </div>
-<button onclick="addCourse()">Add Course</button>
+<button class="btn btn-p" onclick="add()">+ Add Course</button>
+<div style="margin-top:10px;display:flex;gap:8px">
+<select id="semSel" onchange="switchSem()" style="margin:0">
+<option value="Y1S1">Year 1 - Semester 1</option>
+<option value="Y1S2">Year 1 - Semester 2</option>
+<option value="Y2S1">Year 2 - Semester 1</option>
+<option value="Y2S2">Year 2 - Semester 2</option>
+<option value="Y3S1">Year 3 - Semester 1</option>
+<option value="Y3S2">Year 3 - Semester 2</option>
+<option value="Y4S1">Year 4 - Semester 1</option>
+<option value="Y4S2">Year 4 - Semester 2</option>
+<option value="Y5S1">Year 5 - Semester 1</option>
+<option value="Y5S2">Year 5 - Semester 2</option>
+</select>
 </div>
-<div class="card" id="list">No courses yet</div>
-<div class="result" id="result">GPA: 0.00 | CGPA: 0.00</div>
-<button onclick="clearAll()" style="background:#ef4444;color:white">Clear All</button>
+</div>
+
+<div class="card" style="margin-top:16px">
+<div class="resultBig" id="resultBox">
+<div style="opacity:.7;font-size:12px;letter-spacing:1px">CURRENT CGPA</div>
+<div class="gpaNum" id="cgpa">0.00</div>
+<div id="class" class="badge" style="margin-top:8px;background:#fff;color:#000">Add courses to calculate</div>
+<div class="stats">
+<div class="stat"><small>Total Units</small><b id="tUnits">0</b></div>
+<div class="stat"><small>Total Points</small><b id="tPoints">0</b></div>
+</div>
+</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button class="btn btn-g" onclick="window.print()">📄 Save as PDF</button>
+<button class="btn" style="background:#fee2e2;color:#991b1b" onclick="clearAll()">Clear Semester</button>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div class="h" style="margin:0" id="semTitle">Year 1 - Semester 1 Courses</div>
+<div class="badge" id="gpaBadge">GPA 0.00</div>
+</div>
+<div style="overflow:auto">
+<table id="table">
+<tr><th>Course</th><th>Unit</th><th>Grade</th><th>Point</th><th></th></tr>
+</table>
+</div>
+<div id="empty" style="text-align:center;padding:40px 10px;color:#94a3b8">
+<p style="font-size:32px">📚</p>
+<p>No courses in this semester</p>
+<small>Add courses using the form</small>
+</div>
+</div>
+</div>
+
+<div class="footer">Built by Okoli Ugbomatics • Works for any Nigerian University on 5.0 scale • Data saved offline</div>
 
 <script>
-let courses=[]
-function addCourse(){
-let c=document.getElementById('course').value||'Course'
-let u=parseInt(document.getElementById('unit').value)
-let g=parseInt(document.getElementById('grade').value)
-if(!u){alert('Enter credit unit');return}
-courses.push({c,u,g})
-render()
+let data = JSON.parse(localStorage.getItem('unicgpa_v2') || '{}')
+let currentSem = localStorage.getItem('unicgpa_curr') || 'Y1S1'
+const semNames = {Y1S1:"Year 1 - Semester 1",Y1S2:"Year 1 - Semester 2",Y2S1:"Year 2 - Semester 1",Y2S2:"Year 2 - Semester 2",Y3S1:"Year 3 - Semester 1",Y3S2:"Year 3 - Semester 2",Y4S1:"Year 4 - Semester 1",Y4S2:"Year 4 - Semester 2",Y5S1:"Year 5 - Semester 1",Y5S2:"Year 5 - Semester 2"}
+if(!data[currentSem]) data[currentSem]=[]
+document.getElementById('semSel').value=currentSem
+
+function save(){localStorage.setItem('unicgpa_v2',JSON.stringify(data));localStorage.setItem('unicgpa_curr',currentSem)}
+function switchSem(){currentSem=document.getElementById('semSel').value;if(!data[currentSem]) data[currentSem]=[];save();render()}
+function add(){
+let name=document.getElementById('cName').value.trim()||'Course '+(data[currentSem].length+1)
+let unit=parseInt(document.getElementById('cUnit').value)
+let grade=parseInt(document.getElementById('cGrade').value)
+if(!unit||unit<1){alert('Enter credit unit 1-6');return}
+data[currentSem].push({name,unit,grade})
+document.getElementById('cName').value='';document.getElementById('cUnit').value=''
+save();render()
 }
+function del(i){data[currentSem].splice(i,1);save();render()}
+function clearAll(){if(confirm('Clear all courses in '+semNames[currentSem]+'?')){data[currentSem]=[];save();render()}}
 function render(){
-let html='';let totalU=0,totalP=0
-courses.forEach((x,i)=>{
-let gp=x.u*x.g
-totalU+=x.u;totalP+=gp
-html+=`<div>${x.c} - ${x.u} units - Grade ${x.g} <button onclick="remove(${i})">x</button></div>`
+let table=document.getElementById('table')
+table.innerHTML='<tr><th>Course</th><th>Unit</th><th>Grade</th><th>Point</th><th></th></tr>'
+let semCourses=data[currentSem]||[]
+let semU=0,semP=0
+semCourses.forEach((c,i)=>{
+let p=c.unit*c.grade;semU+=c.unit;semP+=p
+table.innerHTML+=`<tr><td><b>${c.name}</b></td><td>${c.unit}</td><td>${c.grade}.0</td><td>${p}</td><td><button class="del" onclick="del(${i})">✕</button></td></tr>`
 })
-document.getElementById('list').innerHTML=html||'No courses yet'
-let gpa=totalU? (totalP/totalU).toFixed(2):0
-let cls=gpa>=4.5?'First Class':gpa>=3.5?'Second Upper':gpa>=2.4?'Second Lower':gpa>=1.5?'Third Class':'Pass/Fail'
-document.getElementById('result').innerText=`GPA/CGPA: ${gpa} | ${cls} | Units: ${totalU}`
+document.getElementById('empty').style.display=semCourses.length?'none':'block'
+let gpa=semU?(semP/semU).toFixed(2):'0.00'
+document.getElementById('gpaBadge').innerText='GPA '+gpa
+document.getElementById('semTitle').innerText=semNames[currentSem]+' Courses'
+
+// Overall CGPA
+let totalU=0,totalP=0
+Object.values(data).forEach(list=>{list.forEach(c=>{totalU+=c.unit;totalP+=c.unit*c.grade})})
+let cgpa=totalU?(totalP/totalU).toFixed(2):'0.00'
+document.getElementById('cgpa').innerHTML=cgpa+'<small>/5.00</small>'
+document.getElementById('tUnits').innerText=totalU
+document.getElementById('tPoints').innerText=totalP
+let cls='',clsColor=''
+let v=parseFloat(cgpa)
+if(v>=4.5){cls='FIRST CLASS';clsColor='#dcfce7'}
+else if(v>=3.5){cls='SECOND CLASS UPPER (2:1)';clsColor='#dbeafe'}
+else if(v>=2.4){cls='SECOND CLASS LOWER (2:2)';clsColor='#fef3c7'}
+else if(v>=1.5){cls='THIRD CLASS';clsColor='#ffedd5'}
+else if(v>=1.0){cls='PASS';clsColor='#f3f4f6'}
+else cls='PROBATION / FAIL'
+document.getElementById('class').innerText=cls
+document.getElementById('class').style.background=clsColor
 }
-function remove(i){courses.splice(i,1);render()}
-function clearAll(){courses=[];render()}
+render()
 </script>
 </body>
 </html>
