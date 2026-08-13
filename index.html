@@ -5,41 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UniCGPA - Universal CGPA Calculator</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#22c55e">
+<meta name="theme-color" content="#dc2626">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2232/2232688.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:#f8fafc;color:#0f172a;min-height:100vh}
-header{background:#fff;border-bottom:1px solid #e2e8f0;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-.logo{font-weight:800;font-size:20px}.logo span{color:#22c55e}
+body{background:#fef2f2;color:#0f172a;min-height:100vh}
+header{background:#fff;border-bottom:1px solid #fecaca;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.logo{font-weight:800;font-size:20px}.logo span{color:#dc2626}
 .container{max-width:900px;margin:20px auto;padding:0 14px;display:grid;grid-template-columns:1fr;gap:16px}
 @media(min-width:768px){.container{grid-template-columns:340px 1fr}}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
-.h{font-weight:700;font-size:14px;margin-bottom:12px;letter-spacing:.5px;text-transform:uppercase;color:#475569}
-input,select{width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;margin-bottom:10px;outline:none;font-size:14px}
-input:focus,select:focus{border-color:#22c55e;background:#fff}
+.card{background:#fff;border:1px solid #fecaca;border-radius:16px;padding:18px;box-shadow:0 4px 12px rgba(220,38,38,0.08)}
+.h{font-weight:700;font-size:14px;margin-bottom:12px;letter-spacing:.5px;text-transform:uppercase;color:#991b1b}
+input,select{width:100%;padding:12px;border:1px solid #fecaca;border-radius:10px;background:#fff5f5;margin-bottom:10px;outline:none;font-size:14px}
+input:focus,select:focus{border-color:#dc2626;background:#fff}
 .btn{width:100%;padding:13px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:.2s}
-.btn-p{background:#0f172a;color:#fff}.btn-p:active{transform:scale(.98)}
-.btn-g{background:#22c55e;color:#000}
-.badge{display:inline-flex;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#dcfce7;color:#166534}
-.resultBig{background:#0f172a;color:#fff;border-radius:16px;padding:20px;text-align:center}
+.btn-p{background:#7f1d1d;color:#fff}.btn-p:active{transform:scale(.98)}
+.btn-g{background:#dc2626;color:#fff}
+.badge{display:inline-flex;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#fee2e2;color:#7f1d1d}
+.resultBig{background:#7f1d1d;color:#fff;border-radius:16px;padding:20px;text-align:center}
 .gpaNum{font-size:42px;font-weight:800;letter-spacing:-1px}
 .gpaNum small{font-size:18px;opacity:.7}
 table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
-th{text-align:left;color:#64748b;font-weight:600;padding:8px;border-bottom:1px solid #e2e8f0}
-td{padding:10px 8px;border-bottom:1px solid #f1f5f9}
-.del{color:#ef4444;background:none;border:none;font-weight:700;cursor:pointer}
+th{text-align:left;color:#991b1b;font-weight:600;padding:8px;border-bottom:1px solid #fecaca}
+td{padding:10px 8px;border-bottom:1px solid #fef2f2}
+.del{color:#dc2626;background:none;border:none;font-weight:700;cursor:pointer}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.stat{background:#f1f5f9;padding:12px;border-radius:12px}
-.stat b{font-size:18px;display:block}
-.footer{text-align:center;padding:30px;color:#94a3b8;font-size:12px}
+.stat{background:#fef2f2;padding:12px;border-radius:12px}
+.stat b{font-size:18px;display:block;color:#7f1d1d}
+.footer{text-align:center;padding:30px;color:#991b1b;font-size:12px}
 </style>
 </head>
 <body>
 <header>
 <div class="logo">🎓 Uni<span>CGPA</span></div>
-<div style="font-size:12px;color:#64748b">Universal • Any University • 5.0 Scale</div>
+<div style="font-size:12px;color:#991b1b">Universal • Any University • 5.0 Scale</div>
 </header>
 
 <div class="container">
@@ -77,9 +77,9 @@ td{padding:10px 8px;border-bottom:1px solid #f1f5f9}
 
 <div class="card" style="margin-top:16px">
 <div class="resultBig" id="resultBox">
-<div style="opacity:.7;font-size:12px;letter-spacing:1px">CURRENT CGPA</div>
+<div style="opacity:.8;font-size:12px;letter-spacing:1px">CURRENT CGPA</div>
 <div class="gpaNum" id="cgpa">0.00</div>
-<div id="class" class="badge" style="margin-top:8px;background:#fff;color:#000">Add courses to calculate</div>
+<div id="class" class="badge" style="margin-top:8px;background:#fff;color:#7f1d1d">Add courses to calculate</div>
 <div class="stats">
 <div class="stat"><small>Total Units</small><b id="tUnits">0</b></div>
 <div class="stat"><small>Total Points</small><b id="tPoints">0</b></div>
@@ -87,7 +87,7 @@ td{padding:10px 8px;border-bottom:1px solid #f1f5f9}
 </div>
 <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
 <button class="btn btn-g" onclick="window.print()">📄 Save as PDF</button>
-<button class="btn" style="background:#fee2e2;color:#991b1b" onclick="clearAll()">Clear Semester</button>
+<button class="btn" style="background:#fee2e2;color:#7f1d1d" onclick="clearAll()">Clear Semester</button>
 </div>
 </div>
 </div>
@@ -102,7 +102,7 @@ td{padding:10px 8px;border-bottom:1px solid #f1f5f9}
 <tr><th>Course</th><th>Unit</th><th>Grade</th><th>Point</th><th></th></tr>
 </table>
 </div>
-<div id="empty" style="text-align:center;padding:40px 10px;color:#94a3b8">
+<div id="empty" style="text-align:center;padding:40px 10px;color:#f87171">
 <p style="font-size:32px">📚</p>
 <p>No courses in this semester</p>
 <small>Add courses using the form</small>
@@ -110,7 +110,7 @@ td{padding:10px 8px;border-bottom:1px solid #f1f5f9}
 </div>
 </div>
 
-<div class="footer">Built by Okoli Ugbomatics • Works for any Nigerian University on 5.0 scale • Data saved offline</div>
+<div class="footer">Built by Okoli Success Onyedika • Works for any Nigerian University on 5.0 scale • Data saved offline</div>
 
 <script>
 let data = JSON.parse(localStorage.getItem('unicgpa_v2') || '{}')
@@ -118,7 +118,6 @@ let currentSem = localStorage.getItem('unicgpa_curr') || 'Y1S1'
 const semNames = {Y1S1:"Year 1 - Semester 1",Y1S2:"Year 1 - Semester 2",Y2S1:"Year 2 - Semester 1",Y2S2:"Year 2 - Semester 2",Y3S1:"Year 3 - Semester 1",Y3S2:"Year 3 - Semester 2",Y4S1:"Year 4 - Semester 1",Y4S2:"Year 4 - Semester 2",Y5S1:"Year 5 - Semester 1",Y5S2:"Year 5 - Semester 2"}
 if(!data[currentSem]) data[currentSem]=[]
 document.getElementById('semSel').value=currentSem
-
 function save(){localStorage.setItem('unicgpa_v2',JSON.stringify(data));localStorage.setItem('unicgpa_curr',currentSem)}
 function switchSem(){currentSem=document.getElementById('semSel').value;if(!data[currentSem]) data[currentSem]=[];save();render()}
 function add(){
@@ -145,26 +144,24 @@ document.getElementById('empty').style.display=semCourses.length?'none':'block'
 let gpa=semU?(semP/semU).toFixed(2):'0.00'
 document.getElementById('gpaBadge').innerText='GPA '+gpa
 document.getElementById('semTitle').innerText=semNames[currentSem]+' Courses'
-
-// Overall CGPA
 let totalU=0,totalP=0
 Object.values(data).forEach(list=>{list.forEach(c=>{totalU+=c.unit;totalP+=c.unit*c.grade})})
 let cgpa=totalU?(totalP/totalU).toFixed(2):'0.00'
 document.getElementById('cgpa').innerHTML=cgpa+'<small>/5.00</small>'
 document.getElementById('tUnits').innerText=totalU
 document.getElementById('tPoints').innerText=totalP
-let cls='',clsColor=''
+let cls='',clsColor='#fee2e2'
 let v=parseFloat(cgpa)
-if(v>=4.5){cls='FIRST CLASS';clsColor='#dcfce7'}
-else if(v>=3.5){cls='SECOND CLASS UPPER (2:1)';clsColor='#dbeafe'}
-else if(v>=2.4){cls='SECOND CLASS LOWER (2:2)';clsColor='#fef3c7'}
-else if(v>=1.5){cls='THIRD CLASS';clsColor='#ffedd5'}
-else if(v>=1.0){cls='PASS';clsColor='#f3f4f6'}
+if(v>=4.5){cls='FIRST CLASS'}
+else if(v>=3.5){cls='SECOND CLASS UPPER (2:1)'}
+else if(v>=2.4){cls='SECOND CLASS LOWER (2:2)'}
+else if(v>=1.5){cls='THIRD CLASS'}
+else if(v>=1.0){cls='PASS'}
 else cls='PROBATION / FAIL'
 document.getElementById('class').innerText=cls
-document.getElementById('class').style.background=clsColor
 }
 render()
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
 </script>
 </body>
 </html>
